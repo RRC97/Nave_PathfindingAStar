@@ -1,0 +1,9 @@
+C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\bin\Debug\PathfindingAStar.exe.config
+C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\bin\Debug\PathfindingAStar.exe
+C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\bin\Debug\PathfindingAStar.pdb
+C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.csprojResolveAssemblyReference.cache
+C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.Form1.resources
+C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.Properties.Resources.resources
+C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.csproj.GenerateResource.Cache
+C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.exe
+C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.pdb
