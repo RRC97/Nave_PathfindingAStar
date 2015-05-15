@@ -7,3 +7,12 @@ C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingA
 C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.csproj.GenerateResource.Cache
 C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.exe
 C:\Users\seeduc\Desktop\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.pdb
+C:\Users\Casa\Documents\GitHub\PathfindingAStar\PathfindingAStar\bin\Debug\PathfindingAStar.exe.config
+C:\Users\Casa\Documents\GitHub\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.exe
+C:\Users\Casa\Documents\GitHub\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.pdb
+C:\Users\Casa\Documents\GitHub\PathfindingAStar\PathfindingAStar\bin\Debug\PathfindingAStar.exe
+C:\Users\Casa\Documents\GitHub\PathfindingAStar\PathfindingAStar\bin\Debug\PathfindingAStar.pdb
+C:\Users\Casa\Documents\GitHub\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.csprojResolveAssemblyReference.cache
+C:\Users\Casa\Documents\GitHub\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.Form1.resources
+C:\Users\Casa\Documents\GitHub\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.Properties.Resources.resources
+C:\Users\Casa\Documents\GitHub\PathfindingAStar\PathfindingAStar\obj\Debug\PathfindingAStar.csproj.GenerateResource.Cache
