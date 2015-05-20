@@ -79,6 +79,7 @@ namespace PathfindingAStar
                     {
                         a = space;
                         a.setType(SpaceType.A);
+                        a.setValue(-1, -1);
                         break;
                     }
                 }
@@ -108,7 +109,7 @@ namespace PathfindingAStar
             }
         }
 
-        Space CalcQuad(ComprassCard cc)
+        Space CalcQuad(ComprassCard cc, bool clean = false)
         {
             int index = (int)cc;
             int refX = a.getRefX();
@@ -141,30 +142,45 @@ namespace PathfindingAStar
             {
                 if (space.referedIn(refX, refY))
                 {
-                    int difRefABX = b.getRefX() - refX;
-                    int difRefABY = b.getRefY() - refY;
-                    difRefABX = difRefABX < 0 ? -difRefABX : difRefABX;
-                    difRefABY = difRefABY < 0 ? -difRefABY : difRefABY;
+                    if (clean)
+                    {
+                        space.setValue(0, 0);
+                        space.setActive(false);
+                    }
+                    else
+                    {
+                        if (space.getValueTotal() == 0)
+                        {
+                            int difRefABX = b.getRefX() - refX;
+                            int difRefABY = b.getRefY() - refY;
+                            difRefABX = difRefABX < 0 ? -difRefABX : difRefABX;
+                            difRefABY = difRefABY < 0 ? -difRefABY : difRefABY;
 
-                    int valueA = 0;
-                    int valueB = (difRefABX + difRefABY) * 10;
+                            int valueA = 0;
+                            int valueB = (difRefABX + difRefABY) * 10;
 
-                    if (cc == ComprassCard.North
-                    ||  cc == ComprassCard.South
-                    ||  cc == ComprassCard.West
-                    ||  cc == ComprassCard.East)
-                        valueA = 10;
+                            if (cc == ComprassCard.North
+                            || cc == ComprassCard.South
+                            || cc == ComprassCard.West
+                            || cc == ComprassCard.East)
+                                valueA = 10;
 
-                    if (cc == ComprassCard.Northeast
-                    ||  cc == ComprassCard.Northwest
-                    ||  cc == ComprassCard.Southeast
-                    ||  cc == ComprassCard.Southwest)
-                        valueA = 14;
+                            if (cc == ComprassCard.Northeast
+                            || cc == ComprassCard.Northwest
+                            || cc == ComprassCard.Southeast
+                            || cc == ComprassCard.Southwest)
+                                valueA = 14;
 
-                    space.setValue(valueA, valueB);
-                    space.setActive(true);
+                            space.setValue(valueA, valueB);
+                            space.setActive(true);
 
-                    return space;
+                            return space;
+                        }
+                        else if (space.getValueTotal() > 0 && space.getType() != SpaceType.Pass)
+                        {
+                            return space;
+                        }
+                    }
                 }
             }
             return null;
@@ -180,42 +196,65 @@ namespace PathfindingAStar
                 {
                     comprass[i] = CalcQuad((ComprassCard)i);
                 }
-                int index = 0;
+                bool blocked = true;
 
-                for (int i = 0; i < comprass.Length; i++)
+                foreach (Space space in comprass)
                 {
-                    if (comprass[index] == null)
-                        index = i;
-                    else if (comprass[index].getType() == SpaceType.Wall)
-                        index = i;
-                    else if (comprass[i] != null && comprass[i].getType() != SpaceType.Pass)
+                    if (space != null)
                     {
-                        int valueI = comprass[i].getValueTotal();
-                        int valueIndex = comprass[index].getValueTotal();
-                        if (valueI >= 0 && valueIndex > valueI)
-                            index = i;
+                        blocked = false;
+                        break;
                     }
                 }
 
+                if (blocked)
+                {
+                    if (pass.Count > 0)
+                    {
+                        a.setType(SpaceType.Impossible);
+                        a = pass[pass.Count - 1];
+                        pass.Remove(a);
+                        a.setType(SpaceType.A);
 
-                if (comprass[index].getType() != SpaceType.Wall
-                &&  comprass[index].getType() != SpaceType.Impossible)
-                {
-                    comprass[index].setType(SpaceType.A);
-                    a.setType(SpaceType.Pass);
-                    pass.Add(a);
-                    a = comprass[index];
-                }
-                else if (pass.Count > 0)
-                {
-                    Console.WriteLine("impedided");
-                    /*a.setType(SpaceType.Impossible);
-                    a = pass[pass.Count - 1];
-                    a.setType(SpaceType.A);*/
+                        for (int i = 0; i < count; i++)
+                        {
+                            CalcQuad((ComprassCard)i, true);
+                        }
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("i");
+                    int index = 0;
+                    for (int i = 0; i < comprass.Length; i++)
+                    {
+                        if (comprass[index] == null)
+                            index = i;
+                        else if (comprass[index].getType() == SpaceType.Wall)
+                            index = i;
+                        else if (comprass[i] != null && comprass[i].getType() != SpaceType.Pass)
+                        {
+                            int valueI = comprass[i].getValueTotal();
+                            int valueIndex = comprass[index].getValueTotal();
+                            if (valueI >= 0 && valueIndex > valueI)
+                                index = i;
+                        }
+                    }
+
+                    if (comprass[index].getType() != SpaceType.Wall
+                    && comprass[index].getType() != SpaceType.Impossible
+                    && comprass[index].getType() != SpaceType.Pass)
+                    {
+                        comprass[index].setType(SpaceType.A);
+                        a.setType(SpaceType.Pass);
+                        pass.Add(a);
+                        a = comprass[index];
+                    }
+                    else if(comprass[index].getType() == SpaceType.Pass)
+                    {
+                        comprass[index].setType(SpaceType.A);
+                        a.setType(SpaceType.Impossible);
+                        a = comprass[index];
+                    }
                 }
             }
             if (e.KeyCode == Keys.Back)

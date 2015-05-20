@@ -83,7 +83,7 @@ namespace PathfindingAStar
 
         public int getValueTotal()
         {
-            if(type != SpaceType.Wall)
+            if (type != SpaceType.Wall && type != SpaceType.Impossible)
                 return (this.valueA + this.valueB);
 
             return -1;
