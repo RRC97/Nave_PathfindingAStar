@@ -186,18 +186,37 @@ namespace PathfindingAStar
                 {
                     if (comprass[index] == null)
                         index = i;
-                    else if(comprass[i] != null)
+                    else if (comprass[index].getType() == SpaceType.Wall)
+                        index = i;
+                    else if (comprass[i] != null && comprass[i].getType() != SpaceType.Pass)
                     {
-                        if (comprass[index].getValueTotal() > comprass[i].getValueTotal())
-                        {
+                        int valueI = comprass[i].getValueTotal();
+                        int valueIndex = comprass[index].getValueTotal();
+                        if (valueI >= 0 && valueIndex > valueI)
                             index = i;
-                        }
                     }
                 }
 
-                comprass[index].setType(SpaceType.A);
-                a.setType(SpaceType.None);
-                a = comprass[index];
+
+                if (comprass[index].getType() != SpaceType.Wall
+                &&  comprass[index].getType() != SpaceType.Impossible)
+                {
+                    comprass[index].setType(SpaceType.A);
+                    a.setType(SpaceType.Pass);
+                    pass.Add(a);
+                    a = comprass[index];
+                }
+                else if (pass.Count > 0)
+                {
+                    Console.WriteLine("impedided");
+                    /*a.setType(SpaceType.Impossible);
+                    a = pass[pass.Count - 1];
+                    a.setType(SpaceType.A);*/
+                }
+                else
+                {
+                    Console.WriteLine("i");
+                }
             }
             if (e.KeyCode == Keys.Back)
             {

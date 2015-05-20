@@ -9,7 +9,7 @@ namespace PathfindingAStar
 {
     public enum SpaceType
     {
-        None, Wall, A, B
+        None, Wall, A, B, Impossible, Pass
     }
     class Space
     {
@@ -41,13 +41,17 @@ namespace PathfindingAStar
                 case SpaceType.B:
                     g.FillRectangle(Brushes.Red, x, y, 40, 40);
                     break;
+                case SpaceType.Impossible:
+                    g.FillEllipse(Brushes.Blue, x, y, 40, 40);
+                    break;
+                case SpaceType.Pass:
+                    g.FillEllipse(Brushes.Red, x + 5, y + 5, 30, 30);
+                    break;
             }
             g.DrawRectangle(Pens.Blue, x, y, 40, 40);
 
-            if (active)
+            if (active && type != SpaceType.Wall && type != SpaceType.Impossible)
             {
-
-
                 Font font = new Font(new FontFamily("Arial"), 6);
                 g.DrawString((valueA + valueB).ToString(), font, Brushes.White, x + 4, y + 4);
                 g.DrawString(valueA.ToString(), font, Brushes.White, x + 4, y + 30);
@@ -79,7 +83,7 @@ namespace PathfindingAStar
 
         public int getValueTotal()
         {
-            if(this.type != SpaceType.Wall)
+            if(type != SpaceType.Wall)
                 return (this.valueA + this.valueB);
 
             return -1;
