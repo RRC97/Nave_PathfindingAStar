@@ -22,6 +22,7 @@ namespace PathfindingAStar
         List<Space> pass;
         Space[] comprass;
         Space a, b;
+        bool wall = true;
         int rows, columns;
         public Form1()
         {
@@ -96,7 +97,7 @@ namespace PathfindingAStar
                     }
                 }
             }
-            else
+            else if(wall)
             {
                 foreach (Space space in spaces)
                 {
@@ -188,8 +189,14 @@ namespace PathfindingAStar
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.ShiftKey)
+            {
+                if(a != b)
+                wall = !wall;
+            }
             if (e.KeyCode == Keys.Space)
             {
+              //  wall = false;
                 int count = Enum.GetNames(typeof(ComprassCard)).Length;
                 comprass = new Space[count];
                 for (int i = 0; i < count; i++)
@@ -224,36 +231,43 @@ namespace PathfindingAStar
                 }
                 else
                 {
-                    int index = 0;
-                    for (int i = 0; i < comprass.Length; i++)
+                    if (a != b)
                     {
-                        if (comprass[index] == null)
-                            index = i;
-                        else if (comprass[index].getType() == SpaceType.Wall)
-                            index = i;
-                        else if (comprass[i] != null && comprass[i].getType() != SpaceType.Pass)
+                        int index = 0;
+                        for (int i = 0; i < comprass.Length; i++)
                         {
-                            int valueI = comprass[i].getValueTotal();
-                            int valueIndex = comprass[index].getValueTotal();
-                            if (valueI >= 0 && valueIndex > valueI)
+                            if (comprass[index] == null)
                                 index = i;
+                            else if (comprass[index].getType() == SpaceType.Wall)
+                                index = i;
+                            else if (comprass[i] != null && comprass[i].getType() != SpaceType.Pass)
+                            {
+                                int valueI = comprass[i].getValueTotal();
+                                int valueIndex = comprass[index].getValueTotal();
+                                if (valueI >= 0 && valueIndex > valueI)
+                                    index = i;
+                            }
+                        }
+
+                        if (comprass[index].getType() != SpaceType.Wall
+                        && comprass[index].getType() != SpaceType.Impossible
+                        && comprass[index].getType() != SpaceType.Pass)
+                        {
+                            comprass[index].setType(SpaceType.A);
+                            a.setType(SpaceType.Pass);
+                            pass.Add(a);
+                            a = comprass[index];
+                        }
+                        else if (comprass[index].getType() == SpaceType.Pass)
+                        {
+                            comprass[index].setType(SpaceType.A);
+                            a.setType(SpaceType.Impossible);
+                            a = comprass[index];
                         }
                     }
-
-                    if (comprass[index].getType() != SpaceType.Wall
-                    && comprass[index].getType() != SpaceType.Impossible
-                    && comprass[index].getType() != SpaceType.Pass)
+                    else
                     {
-                        comprass[index].setType(SpaceType.A);
-                        a.setType(SpaceType.Pass);
-                        pass.Add(a);
-                        a = comprass[index];
-                    }
-                    else if(comprass[index].getType() == SpaceType.Pass)
-                    {
-                        comprass[index].setType(SpaceType.A);
-                        a.setType(SpaceType.Impossible);
-                        a = comprass[index];
+                        wall = false;
                     }
                 }
             }
